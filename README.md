@@ -184,6 +184,10 @@
 - nmap -p 21 [IP]
 - **hydra -L usernames.txt -P passwords.txt ftp://10.10.10.10**
 
+**Other**
+- hydra -l <username> -P <full path to pass> 10.10.119.16 -t 4 ssh
+- hydra <username> <wordlist> 10.10.119.16 http-post-form "<path>:<login_credentials>:<invalid_response>"
+
 **Module 14: Hacking Web Applications**
 
 **Lab2-Task1: Perform a Brute-force Attack using Burp Suite**
