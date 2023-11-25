@@ -190,7 +190,20 @@
   - **./covert_tcp -dest TARGET_IP -source ATTACKER_IP -source_port 8888 -dest_port 9999 -file /home/attacker/Desktop/send/message.txt**
   - Wireshark (message string being send in individual packet)
 
-
+**Module 07: Malware Threat**
+### Lab1-Task1: Gain control over a victim machine using njRAT RAT Trojan (Page 319)
+- **njRAT**
+  - Default port: 5552
+ 
+### Lab1-Task3: Create a Trojan server ussing Theef RAT Trojan (Page 347)
+- **Theef RAT**
+  - Default port: 9871 or 6703
+ 
+### Lab3-Task2: Perform a string search using BinText (Page 378)
+- **BinText**
+  - Extract text from executable
+ 
+- 444
 
 
 
