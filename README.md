@@ -62,7 +62,7 @@
   - **-O:** OS discovery
 - **nmap –-script smb-os-discovery.nse [IP]**
   - **-–script:** Specify the customized script
-  - **smb-os-discovery.nse:** Determine the OS, computer name, domain, workgroup, and current time over the SMB protocol (Port 445 or 139)
+  - **smb-os-discovery.nse:** Determine the OS, computer name, domain, FQDN, workgroup, and current time over the SMB protocol (Port 445 or 139)
 
 - Useful
   - **nmap -sC -sV -p- -A -v -O -T4 [IP]**
@@ -133,16 +133,11 @@ OpenVAS, Nessus, Nikto
 ### Lab1-Task1: Perform Active Online Attack to Crack the System's Password using Responder (Page 572)
 
 - **Linux:**
-  - cd
-  - cd Responder
-  - chmox +x ./Responder.py
+  - chmod +x ./Responder.py
   - **sudo ./Responder.py -I eth0**
-  - passwd: \*\*\*\*
 
 - **Linux:**
   - Home/Responder/logs/SMB-NTMLv2-SSP-[IP].txt
-  - sudo snap install john-the-ripper
-  - passwd: \*\*\*\*
   - **sudo john /home/ubuntu/Responder/logs/SMB-NTLMv2-SSP-10.10.10.10.txt**
 
 
@@ -309,7 +304,7 @@ OpenVAS, Nessus, Nikto
 
 ### Lab2-Task1: Detect Session Hijacking using Wireshark (Page 204)
 
-- A high number of ARP requests indicate that a a system is acting as a client for all IP addresses.
+- A high number of ARP requests indicate that a system is acting as a client for all IP addresses.
 
 ## Module 13: Hacking Web Servers
 
@@ -629,7 +624,7 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
   ```
 
 - **LinPEAS/WindPEAS**
-  - Linux/Windows local Privilege Escalation Awesome Script ((C#.exe and .bat, .sh)
+  - Linux/Windows local Privilege Escalation Awesome Script (C#.exe and .bat, .sh)
   - https://github.com/carlospolop/PEASS-ng
     - ```curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh```
     - ```https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat```
@@ -644,6 +639,8 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
   - Nmap, Hydra, sqlmap, Nikto, john, wpscan, metasploit, nessus, openstego, quickstego, dirbuster
 - CEH notes [FAIR]: https://book.thegurusec.com/certifications/certified-ethical-hacker-practical
   - All phases with tools
+- Flag hunting CEH Labs [INTERESTING]: https://blogalpharhob.com/?cat=14
+  - Different ways of obtaining the flags for questions
 
 ## Importan keywords
 
