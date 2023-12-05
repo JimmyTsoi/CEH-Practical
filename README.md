@@ -128,7 +128,7 @@ OpenVAS, Nessus, Nikto
 - **nikto -h [URL] -Tuning [X] -o [OUTPUT_FILE] -F txt**
   - **Tuning**: specific test to perform, i.e 4==Injection
 
-## Module 06: System Hacking
+## Module 06: System Hacking (Page 568)
 
 ### Lab1-Task1: Perform Active Online Attack to Crack the System's Password using Responder (Page 572)
 
@@ -194,7 +194,7 @@ OpenVAS, Nessus, Nikto
 ### Lab2-Task5: Escalate privileges by bypassing UAC and exploiting sticky keys (Page 135)
 - Elevating on Windows 11 and replacing sticky keys with a elevated cmd
 
-### Lab2-Task6: Escalate privilegesto gather hashdump using Mimikatz (Page 147)
+### Lab2-Task6: Escalate privileges to gather hashdump using Mimikatz (Page 147)
 - After having a privileged Meterpreter session
   - *load kiwi*
   - *lsa_dump_sam*
@@ -327,6 +327,13 @@ OpenVAS, Nessus, Nikto
   - Enumerate applications, directories, and files of the web server
 - **gobuster dir -u [IP] -w [WORDLIST]**
   - Directory brute-forcing mode. Fast paced enumeration of hidden files and directories
+  - ```gobuster dir -u [IP] -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt -q```
+    - dir : directory listing
+    - -u : host
+    - -w : wordlists
+    - -t : threads int / Number of concurrent threads (default 10)
+    - -x : enumerate hidden files htm, php
+    - -q : –quiet / Don’t print the banner and other noise
 
 ### Lab2-Task1: Perform a Brute-force Attack using Burp Suite
 
@@ -548,6 +555,13 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
     - -m = type of hash
     - -a = attack mode (1-3) 3 bruteforcing
 
+- **Sigcheck**
+
+  - Docs:
+    - https://learn.microsoft.com/en-us/sysinternals/downloads/sigcheck
+    - Calculate entropy: https://practicalsecurityanalytics.com/file-entropy/
+  - 
+
 - **Rainbow tables**
 
   - Docs:
@@ -597,16 +611,9 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
 - **Dirb (Web content scanner)**
 
   - https://medium.com/tech-zoom/dirb-a-web-content-scanner-bc9cba624c86
-  - **gobuster**
-  - ```gobuster dir -u [IP] -w /usr/share/wordlists/dirb/common.txt -t 50 -x php,html,txt -q```
-    - dir : directory listing
-    - -u : host
-    - -w : wordlists
-    - -t : threads int / Number of concurrent threads (default 10)
-    - -x : enumerate hidden files htm, php
-    - -q : –quiet / Don’t print the banner and other noise
 
 - **Searchsploit (Exploit-DB)**
+
   - https://www.hackingarticles.in/comprehensive-guide-on-searchsploit/
 
 - **ADB**
@@ -623,11 +630,14 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
   adb pull sdcard/log.txt /home/mmurphy/Desktop
   ```
 
-- **LinPEAS/WindPEAS**
-  - Linux/Windows local Privilege Escalation Awesome Script (C#.exe and .bat, .sh)
-  - https://github.com/carlospolop/PEASS-ng
-    - ```curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh```
-    - ```https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat```
+- **Privilege escalation**
+
+    - Always a good idea to execute sudo -l on the victim to check the chances of attack.
+    - **LinPEAS/WindPEAS**
+      - Linux/Windows local Privilege Escalation Awesome Script (C#.exe and .bat, .sh)
+      - https://github.com/carlospolop/PEASS-ng
+        - ```curl -L https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh | sh```
+        - ```https://raw.githubusercontent.com/carlospolop/PEASS-ng/master/winPEAS/winPEASbat/winPEAS.bat```
 
 ## Useful Links
 
@@ -650,3 +660,9 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
 - MD5 - Hashcalc & MD5 Calculator
 - Encoded - BCTexteditor
 - Volume & mount - Veracrypt
+
+## Example questions and walkthroughs
+
+- https://docs.google.com/document/d/1w-D4__FSRQW-1VMs0zzNlpPirxV6p7ESHTKvye2G464/edit
+- CEH review 2023: https://www.youtube.com/playlist?list=PLZEA2EJpqSWfouVNPkl37AWEVCj6A2mdz
+- DVWA walkthrough: https://cavementech.com/2022/12/dvwa-walkthrough.html
